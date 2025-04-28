@@ -1,0 +1,362 @@
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Estilos generales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8fafc;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 20px;
+}
+
+/* Sección de título y descripción */
+.title-section {
+  width: 40%;
+  text-align: left;
+}
+
+.title {
+  color: #0066cc;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.description {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* Sección de filtros */
+.filters-section {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.filter-button {
+  width: 180px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  background-color: white;
+  color: #555;
+  font-size: 0.95rem;
+  border: 1px solid #e1e1e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.filter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button.active {
+  background-color: #0066cc;
+  color: white;
+  border-color: #0066cc;
+  font-weight: 500;
+}
+
+/* Sección de resultados */
+.results-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.result-card {
+  background: white;
+  border-radius: 10px;
+  width: calc(50% - 10px);
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 5px solid #00b894;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.result-card.urgent {
+  border-left-color: #ff4757;
+}
+
+.result-card.warning {
+  border-left-color: #ffa502;
+}
+
+.result-card-header {
+  padding: 15px 20px 0;
+}
+
+.result-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.result-card-title h3 {
+  color: #0066cc;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.result-date {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.result-card-content {
+  padding: 5px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.result-label {
+  color: #666;
+  font-weight: 500;
+  flex: 1;
+}
+
+.result-value {
+  color: #333;
+  font-weight: 400;
+  text-align: right;
+  flex: 2;
+}
+
+.result-value.abnormal {
+  color: #ff4757;
+  font-weight: 500;
+}
+
+.result-value.warning {
+  color: #ffa502;
+  font-weight: 500;
+}
+
+.doctor-name, .lab-name {
+  color: #0066cc;
+  font-weight: 500;
+}
+
+.detail-button {
+  margin-top: 15px;
+  background-color: #f5f5f5;
+  color: #0066cc;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center;
+  box-shadow: none;
+}
+
+.detail-button:hover {
+  background-color: #e8e8e8;
+  transform: none;
+  box-shadow: none;
+}
+
+.no-results {
+  width: 100%;
+  text-align: center;
+  color: #666;
+  padding: 40px 0;
+  font-size: 1rem;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+  color: #0066cc;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  justify-content: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+  padding: 5px;
+  line-height: 1;
+  border-radius: 50%;
+}
+
+.close-button:hover {
+  color: #ff4757;
+  background-color: #f5f5f5;
+  transform: none;
+  box-shadow: none;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.result-title {
+  color: #0066cc;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.result-info {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.result-info p {
+  margin-bottom: 5px;
+}
+
+.section-title {
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.secondary-button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.secondary-button:hover {
+  background: #0055aa;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .header-section {
+    flex-direction: column;
+  }
+  
+  .title-section, .filters-section {
+    width: 100%;
+  }
+  
+  .filters-section {
+    margin-top: 20px;
+    align-items: center;
+  }
+  
+  .filter-button {
+    width: 100%;
+  }
+  
+  .result-card {
+    width: 100%;
+  }
+}

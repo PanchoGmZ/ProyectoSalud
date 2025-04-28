@@ -1,0 +1,27 @@
+[
+    {
+      "id": 1,
+      "paciente": "Juan Pérez",
+      "tipo": "Análisis de Sangre",
+      "fecha": "2025-04-22",
+      "observaciones": "Leucocitos elevados.",
+      "archivo": "juan-analisis-sangre.pdf"
+    },
+    {
+      "id": 2,
+      "paciente": "María López",
+      "tipo": "Ecografía Abdominal",
+      "fecha": "2025-04-20",
+      "observaciones": "Todo normal.",
+      "archivo": "maria-eco-abdomen.pdf"
+    },
+    {
+      "id": 3,
+      "paciente": "Carlos Gómez",
+      "tipo": "Radiografía de Tórax",
+      "fecha": "2025-04-18",
+      "observaciones": "Infección pulmonar.",
+      "archivo": "carlos-radiografia.pdf"
+    }
+  ]
+  

@@ -1,0 +1,92 @@
+/* Estilos base */
+.agendar-turno-container {
+    background: linear-gradient(135deg, #002B5B 0%, #1a4b8c 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .agendar-turno-card {
+    background: #D6ECFF;
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .agendar-title {
+    color: #002B5B;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  
+  /* Formulario */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #002B5B;
+    font-weight: 500;
+  }
+  
+  .form-group select, 
+  .date-picker {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 2px solid #A6D1FF;
+    background: white;
+    font-size: 1rem;
+    transition: all 0.3s;
+  }
+  
+  .form-group select:focus, 
+  .date-picker:focus {
+    outline: none;
+    border-color: #4EE5C1;
+    box-shadow: 0 0 0 3px rgba(78, 229, 193, 0.2);
+  }
+  
+  .date-picker {
+    cursor: pointer;
+  }
+  
+  /* Botón */
+  .submit-button {
+    width: 100%;
+    padding: 15px;
+    background: #4EE5C1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+  }
+  
+  .submit-button:hover {
+    background: #3bc9a8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .agendar-turno-card {
+      padding: 1.5rem;
+    }
+    
+    .agendar-title {
+      font-size: 1.5rem;
+    }
+  }

@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-primary: #184e77;
+  --color-primary-light: #1e6091;
+  --color-primary-dark: #133e5e;
+  --color-secondary: #d4af37;
+  --color-danger: #a4133c;
+  --color-light: #f7f7fa;
+  --color-text: #1a2a36;
+  --color-subtext: #5c727d;
+  --border-radius: 14px;
+  --background-main: #f0f4f8;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 20px 40px rgba(24, 78, 119, 0.08);
+  --transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html, #root {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--background-main);
+  color: var(--color-text);
+}
+
+.pantalla-completa {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e7f0f7 100%);
+}
+
+.consultas-container {
+  width: 100%;
+  max-width: 1100px;
+  background-color: #ffffff;
+  padding: 60px 50px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium), 0 0 0 1px rgba(24, 78, 119, 0.03);
+}
+
+.consultas-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.btn-back {
+  position: absolute;
+  left: 0;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+}
+
+.btn-back:hover {
+  background-color: rgba(24, 78, 119, 0.05);
+  color: var(--color-primary-dark);
+}
+
+.consultas-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-text);
+  letter-spacing: -0.5px;
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.consultas-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background-color: var(--color-secondary);
+}
+
+.consultas-filtros {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.filtro-btn {
+  background-color: var(--color-light);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-soft);
+}
+
+.filtro-btn:hover {
+  background-color: #eaeff4;
+  transform: translateY(-2px);
+}
+
+.filtro-btn.activo {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 6px 15px rgba(24, 78, 119, 0.2);
+}
+
+.consultas-lista {
+  list-style: none;
+}
+
+.consulta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-soft);
+  border-left: 4px solid var(--color-primary);
+}
+
+.consulta-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(24, 78, 119, 0.1);
+}
+
+.consulta-texto h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+
+.consulta-texto p {
+  font-size: 15px;
+  color: var(--color-subtext);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.consulta-texto p::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+
+.consulta-botones {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: var(--border-radius);
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.btn.light {
+  background-color: white;
+  color: var(--color-primary);
+  border: 1px solid #e0e7ed;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn.light:hover {
+  background-color: #f7f9fc;
+  border-color: #cad6e2;
+  transform: translateY(-2px);
+}
+
+.btn.primary {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 6px 15px rgba(24, 78, 119, 0.2);
+}
+
+.btn.primary:hover {
+  background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(24, 78, 119, 0.25);
+}
+
+.btn.danger {
+  color: white;
+  background-color: var(--color-danger);
+  box-shadow: 0 6px 15px rgba(164, 19, 60, 0.2);
+}
+
+.btn.danger:hover {
+  background-color: #b91c48;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(164, 19, 60, 0.25);
+}
+
+.sin-consultas {
+  text-align: center;
+  font-size: 18px;
+  color: var(--color-subtext);
+  margin-top: 60px;
+  padding: 40px;
+  background-color: var(--color-light);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+}
+
+/* Estilos para medios pequeños */
+@media (max-width: 768px) {
+  .consultas-container {
+    padding: 40px 25px;
+  }
+  
+  .consulta-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+  
+  .consulta-botones {
+    margin-top: 20px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .btn {
+    min-width: auto;
+    padding: 10px 16px;
+  }
+  
+  .consultas-header h1 {
+    font-size: 32px;
+  }
+}
+
+/* Indicadores de tipo de consulta */
+.consulta-texto p[data-tipo="virtual"]::before {
+  background-color: #4f94cd;
+}
+
+.consulta-texto p[data-tipo="presencial"]::before {
+  background-color: var(--color-secondary);
+}
+
+/* Animaciones suaves */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.consulta-item {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.consulta-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.consulta-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
