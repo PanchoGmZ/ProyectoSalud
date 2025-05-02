@@ -16,7 +16,7 @@ import { db } from '../../Data/firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = "AIzaSyAjp59jJ9-pysw_a98adAhfVPbJD_JA4F8";
+const API_KEY = "";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const ConsultasVirtuales = () => {
