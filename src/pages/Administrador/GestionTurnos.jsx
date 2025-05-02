@@ -1,132 +1,103 @@
-import React, { useState } from 'react';
-import './GestionTurnos.css'; // Asegúrate de que este archivo esté en el mismo directorio
+import React, { useState, useEffect } from 'react';
+import { db } from '../../Data/firebase';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import './GestionTurnos.css';
 
 const GestionTurnos = () => {
-  const [turnos, setTurnos] = useState([
-    { id: 1, paciente: 'Hitotsuki', fecha: '', hora: '', edadSexo: '', motivo: '', estado: '' },
-    { id: 2, paciente: 'Boercias', fecha: '14/06/2021', hora: 'cma', edadSexo: '30 Percentile', motivo: 'Ngozsoneda', estado: 'Amalab' },
-    { id: 3, paciente: 'Ibanabadou', fecha: '14/06/2021', hora: 'Lara', edadSexo: '40 Percentile', motivo: 'Radeira', estado: 'Esperando' }
-  ]);
+    const [turnos, setTurnos] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  const [nuevoTurno, setNuevoTurno] = useState({
-    paciente: '',
-    fecha: '',
-    hora: '',
-    edadSexo: '',
-    motivo: '',
-    estado: ''
-  });
+    useEffect(() => {
+        const q = query(collection(db, 'agentdaturno'), orderBy('fecha', 'asc'));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const turnosData = [];
+            querySnapshot.forEach((doc) => {
+                const turno = doc.data();
+                turnosData.push({
+                    id: doc.id,
+                    createdAt: turno.createdAt?.toDate(),
+                    especialidad: turno.especialidad || '',
+                    estado: turno.estado || '',
+                    fecha: turno.fecha?.toDate(),
+                    hora: turno.hora || '',
+                    medico: turno.medico || '',
+                    medicoId: turno.medicoId || '',
+                    motivo: turno.motivo || '',
+                    pacienteId: turno.pacienteId || '',
+                    pacienteNombre: turno.pacienteNombre || '',
+                    tipoconsulta: turno.tipoconsulta || '',
+                    updatedAt: turno.updatedAt?.toDate()
+                });
+            });
+            setTurnos(turnosData);
+            setLoading(false);
+        });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNuevoTurno({ ...nuevoTurno, [name]: value });
-  };
+        return () => unsubscribe();
+    }, []);
 
-  const agregarTurno = () => {
-    if (nuevoTurno.paciente && nuevoTurno.fecha) {
-      setTurnos([...turnos, { ...nuevoTurno, id: turnos.length + 1 }]);
-      setNuevoTurno({
-        paciente: '',
-        fecha: '',
-        hora: '',
-        edadSexo: '',
-        motivo: '',
-        estado: ''
-      });
+    // Función para formatear fechas
+    const formatDate = (date) => {
+        if (!date) return '';
+        return date.toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short'
+        });
+    };
+
+    if (loading) {
+        return <div>Cargando turnos...</div>;
     }
-  };
 
-  return (
-    <div className="gestion-turnos-container">
-      <h1>Gestión de Turnos</h1>
-
-      <div className="nuevo-turno">
-        <h2>Agregar Nuevo Turno</h2>
-        <div className="grid">
-          <input
-            type="text"
-            name="paciente"
-            value={nuevoTurno.paciente}
-            onChange={handleInputChange}
-            placeholder="Nombre del Paciente"
-          />
-          <input
-            type="date"
-            name="fecha"
-            value={nuevoTurno.fecha}
-            onChange={handleInputChange}
-          />
-          <input
-            type="time"
-            name="hora"
-            value={nuevoTurno.hora}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="edadSexo"
-            value={nuevoTurno.edadSexo}
-            onChange={handleInputChange}
-            placeholder="Edad/Sexo"
-          />
-          <input
-            type="text"
-            name="motivo"
-            value={nuevoTurno.motivo}
-            onChange={handleInputChange}
-            placeholder="Motivo"
-          />
-          <select
-            name="estado"
-            value={nuevoTurno.estado}
-            onChange={handleInputChange}
-          >
-            <option value="">Seleccionar Estado</option>
-            <option value="Esperando">Esperando</option>
-            <option value="En consulta">En consulta</option>
-            <option value="Atendido">Atendido</option>
-            <option value="Cancelado">Cancelado</option>
-          </select>
+    return (
+        <div className="gestion-turnos-container">
+            <div className="lista-turnos">
+                <h2>Lista de Turnos</h2>
+                <div className="overflow-x-auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Paciente Nombre</th>
+                                <th>Médico</th>
+                                <th>Especialidad</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Tipo Consulta</th>
+                                <th>Motivo</th>
+                                <th>Fecha de Creación</th>
+                                <th>Última Actualización</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {turnos.map((turno) => (
+                                <tr key={turno.id}>
+                                    <td>{turno.pacienteNombre}</td>
+                                    <td>{turno.medico}</td>
+                                    <td>{turno.especialidad}</td>
+                                    <td>
+                                        <span className={`estado ${turno.estado.toLowerCase()}`}>
+                                            {turno.estado}
+                                        </span>
+                                    </td>
+                                    <td>{formatDate(turno.fecha)}</td>
+                                    <td>{turno.hora}</td>
+                                    <td>{turno.tipoconsulta}</td>
+                                    <td>{turno.motivo}</td>
+                                    <td>{formatDate(turno.createdAt)}</td>
+                                    <td>{formatDate(turno.updatedAt)}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <button onClick={agregarTurno}>Agregar Turno</button>
-      </div>
-
-      <div className="lista-turnos">
-        <h2>Lista de Turnos</h2>
-        <div className="overflow-x-auto">
-          <table>
-            <thead>
-              <tr>
-                <th>Consultas</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Edad/Sexo</th>
-                <th>Motivo</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {turnos.map((turno) => (
-                <tr key={turno.id}>
-                  <td>{turno.paciente}</td>
-                  <td>{turno.fecha}</td>
-                  <td>{turno.hora}</td>
-                  <td>{turno.edadSexo}</td>
-                  <td>{turno.motivo}</td>
-                  <td>{turno.estado}</td>
-                  <td className="acciones">
-                    <button className="editar">Editar</button>
-                    <button className="eliminar">Eliminar</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default GestionTurnos;

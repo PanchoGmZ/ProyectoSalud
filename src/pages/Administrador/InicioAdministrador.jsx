@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './InicioAdministrador.css'; // Importar el CSS
+import './InicioAdministrador.css'; 
 
 const InicioAdministrador = () => {
   return (
@@ -23,7 +23,7 @@ const InicioAdministrador = () => {
           <p>Administra y agenda citas médicas.</p>
         </Link>
 
-        <Link to="/gestion-usuarios" className="boton-admin">
+        <Link to="/gestion-medicos" className="boton-admin">
           <div className="icono-admin">
             <i className="fas fa-users-cog"></i>
           </div>

@@ -1,10 +1,10 @@
-/* CONTENEDOR PRINCIPAL */
+
 .contenido-principal {
   padding: 2rem 3rem;
   background: linear-gradient(135deg, #f8fafc 0%, #e7f0f7 100%);
 }
 
-/* BARRA SUPERIOR */
+
 .barra-superior h2 {
   font-size: 1.8rem;
   font-family: 'Playfair Display', serif;
@@ -12,7 +12,7 @@
   margin-bottom: 1rem;
 }
 
-/* SECCIÓN DE BIENVENIDA */
+
 .bienvenida-admin {
   text-align: center;
   margin: 2rem 0 3rem;
@@ -36,14 +36,14 @@
   font-weight: 400;
 }
 
-/* GRID DE BOTONES */
+
 .grid-botones-admin {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
 }
 
-/* BOTONES ADMIN */
+
 .boton-admin {
   text-decoration: none;
   background-color: white;
@@ -62,21 +62,21 @@
   box-shadow: var(--shadow-medium);
 }
 
-/* ICONO EN CADA BOTÓN */
+
 .icono-admin {
   font-size: 2.5rem;
   color: var(--color-primary);
   margin-bottom: 1rem;
 }
 
-/* TÍTULO DE BOTÓN */
+
 .boton-admin h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
-/* DESCRIPCIÓN DE BOTÓN */
+
 .boton-admin p {
   font-size: 0.95rem;
   color: var(--color-subtext);

@@ -33,7 +33,6 @@ const InicioPaciente = () => {
 
   return (
     <div className="inicio-lista-container">
-      {/* Botón de perfil flotante */}
       <Link to="/perfil" className="boton-perfil-flotante">
         <FiUser className="perfil-icono" />
       </Link>

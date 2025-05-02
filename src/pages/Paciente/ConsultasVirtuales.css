@@ -1,212 +1,312 @@
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ConsultasVirtuales.css */
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #e9f1f7;
-    color: #333;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    min-height: 100vh; /* Full viewport height */
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fa;
+  color: #333;
+  height: 100vh;
+  overflow-y: auto!important;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
+.consultas-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centra verticalmente */
+  height: 100%; /* Cubre toda la altura */
+  padding: 20px;
+  overflow-y: auto!important; /* Permite el desplazamiento vertical */
 }
 
-h1, h2, h3 {
-    font-weight: 600;
+.consultas-container {
+  width: 100%;
+  max-width: 1200px; /* Aumenta el ancho máximo */
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: auto;
 }
 
-h1 {
-    font-size: 3rem;
-    color: #f6f6f6;
-}
-
-h2 {
-    font-size: 2.2rem;
-    color: #004d6a;
-    margin-bottom: 10px;
-}
-
-h3 {
-    font-size: 1.6rem;
-    color: #007996;
-    margin-bottom: 10px;
-}
-
-/* Header Styles */
 .consultas-header {
-    background: linear-gradient(to right, #007996, #004d6a);
-    color: white;
-    text-align: center;
-    padding: 80px 20px;
-    border-radius: 10px 10px 0 0;
-    width: 100%; /* Full width */
+  position: relative;
+  text-align: center;
+  overflow: hidden;
 }
 
 .header-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s ease;
+}
+
+.header-image:hover {
+  transform: scale(1.05);
 }
 
 .header-content {
-    margin-top: 20px;
+  padding: 20px;
 }
 
-.header-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
+h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  color: #007bff;
 }
 
-.header-content p {
-    font-size: 1.2rem;
-    max-width: 800px;
-    margin: 10px auto;
-    line-height: 1.8;
+p {
+  font-size: 1.2rem;
 }
 
-/* Navigation */
 .navigation {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin: 40px 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: #007bff;
+  padding: 10px 0;
 }
 
 .nav-btn {
-    background-color: #007996;
-    color: white;
-    padding: 16px 36px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 10px 20px;
+  transition: background 0.3s, transform 0.3s;
 }
 
-.nav-btn:hover,
-.nav-btn.active {
-    background-color: #004d6a;
-    transform: translateY(-3px);
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.nav-btn:focus {
-    outline: none;
+.active {
+  border-bottom: 2px solid white;
 }
 
-/* Main Sections */
-.consultas-form,
-.consultas-faq,
-.consultas-contact,
-.consultas-support {
-    max-width: 1000px;
-    margin: 40px auto;
-    background-color: white;
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 0 12px 30px rgba(255, 255, 255, 0.1);
-    animation: fadeIn 0.6s ease-out;
+.consultas-form, .consultas-faq, .consultas-contact, .consultas-support, .consultas-chat {
+  padding: 20px;
+  transition: background 0.3s;
 }
 
-/* Form Styles */
+.consultas-form:hover, .consultas-faq:hover, .consultas-contact:hover, .consultas-support:hover, .consultas-chat:hover {
+  background: #f0f8ff;
+}
+
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.form-group label {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 8px;
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    margin-top: 8px;
-    transition: border 0.3s ease;
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    border: 1px solid #007996;
-    outline: none;
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  border-color: #007bff;
 }
 
 .submit-btn {
-    background-color: #007996;
-    color: white;
-    padding: 16px 32px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 50px;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
 }
 
 .submit-btn:hover {
-    background-color: #004d6a;
-    transform: translateY(-2px);
+  background-color: #218838;
+  transform: translateY(-2px);
 }
 
-.submit-btn:focus {
-    outline: none;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-/* Section Headings */
-.consultas-faq ul,
-.consultas-faq li {
-    list-style-type: none;
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #555;
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
 }
 
-.consultas-faq li {
-    margin-bottom: 18px;
+th {
+  background-color: #007bff;
+  color: white;
 }
 
-.consultas-faq li::before {
-    content: "•";
-    color: #007996;
-    font-weight: bold;
-    margin-right: 10px;
+.social-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+.social-button {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  flex: 1;
+  margin: 0 5px;
+  transition: background 0.3s, transform 0.3s;
 }
 
-@keyframes slideIn {
-    0% {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+.social-button:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chat-message {
+  margin: 5px 0;
+}
+
+.chat-message.user {
+  text-align: right;
+}
+
+.chat-message.bot {
+  text-align: left;
+  color: #007bff;
+}
+
+textarea {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  height: 60px;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .nav-btn {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+
+  .social-button {
+    margin: 0 3px;
+  }
+}
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  max-height: 80vh;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: white;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 5px;
+}
+
+.chat-message {
+  max-width: 70%;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.message-content {
+  width: 100%;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+  margin-left: 30%;
+}
+
+.chat-message.bot {
+  align-self: flex-start;
+  background-color: #e9ecef;
+  margin-right: 30%;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding: 10px;
+}
+
+.chat-input {
+  flex-grow: 1;
+  min-height: 40px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
 }

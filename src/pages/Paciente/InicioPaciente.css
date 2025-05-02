@@ -1,14 +1,13 @@
-/* Estilos generales */
+
 .inicio-lista-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #333;
-  position: relative; /* Para posicionar el botón flotante */
+  position: relative; 
 }
 
-/* Botón de perfil flotante */
 .boton-perfil-flotante {
   position: fixed;
   top: 20px;
@@ -34,12 +33,10 @@
   color: #3498db;
   font-size: 1.4rem;
 }
-
-/* Encabezado */
 .inicio-lista-header {
   margin-bottom: 2.5rem;
   text-align: center;
-  padding-top: 1rem; /* Espacio para el botón flotante */
+  padding-top: 1rem; 
 }
 
 .inicio-lista-titulo {

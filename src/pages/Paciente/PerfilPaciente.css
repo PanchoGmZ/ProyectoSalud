@@ -1,165 +1,170 @@
-/* Estilos base */
 .perfil-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  /* Header */
-  .perfil-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-    position: relative;
-  }
-  
-  .avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: #e3f2fd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1976d2;
-    margin-bottom: 1rem;
-  }
-  
-  .perfil-header h1 {
-    color: #002B5B;
-    margin: 0;
-  }
-  
-  .edit-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #4EE5C1;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s;
-  }
-  
-  .edit-button:hover {
-    background: #3bc9a8;
-    transform: translateY(-2px);
-  }
-  
-  /* Formulario */
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+}
+
+.perfil-header h1 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.edit-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.edit-button:hover {
+  background: #2980b9;
+}
+
+.edit-button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.perfil-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #34495e;
+  margin-bottom: 0.5rem;
+}
+
+.form-group p {
+  margin: 0;
+  padding: 0.5rem;
+  background: #f9f9f9;
+  border-radius: 5px;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.save-button {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #27ae60;
+}
+
+.save-button:disabled {
+  background: #7f8c8d;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #c0392b;
+}
+
+.password-hint {
+  color: #7f8c8d;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #3498db;
+}
+
+.error {
+  color: #e74c3c;
+  padding: 1rem;
+  background: #fdecea;
+  border-radius: 5px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
   .perfil-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
   
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #002B5B;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-group p {
-    margin: 0;
-    padding: 0.5rem;
-    color: #455A64;
-    background: #f5f5f5;
-    border-radius: 6px;
-    min-height: 40px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #A6D1FF;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: #4EE5C1;
-    box-shadow: 0 0 0 3px rgba(78, 229, 193, 0.2);
-  }
-  
-  .form-group textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-  
-  /* Botones */
   .form-actions {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1rem;
+    grid-column: span 1;
   }
-  
-  .save-button {
-    background: #4EE5C1;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .save-button:hover {
-    background: #3bc9a8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .cancel-button {
-    background: #f5f5f5;
-    color: #455A64;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .cancel-button:hover {
-    background: #e0e0e0;
-  }
-  
-  /* Responsive */
-  @media (max-width: 600px) {
-    .perfil-container {
-      padding: 1.5rem;
-    }
-    
-    .perfil-form {
-      grid-template-columns: 1fr;
-    }
-  }
+}
