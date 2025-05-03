@@ -6,11 +6,7 @@ const Consultas = () => {
   const navigate = useNavigate();
   const [filtro, setFiltro] = useState('todas');
 
-  const consultas = [
-    { id: 1, tipo: 'virtual', paciente: 'Juan Pérez', fecha: '2025-05-01', estado: 'pendiente' },
-    { id: 2, tipo: 'presencial', paciente: 'Ana García', fecha: '2025-05-02', estado: 'pendiente' },
-    { id: 3, tipo: 'virtual', paciente: 'Luis Ramírez', fecha: '2025-05-03', estado: 'pendiente' },
-  ];
+
 
   const filtrarConsultas = () => {
     if (filtro === 'todas') return consultas;
