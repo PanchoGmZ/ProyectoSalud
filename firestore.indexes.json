@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "resultadospacientes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "pacienteUID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

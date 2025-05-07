@@ -1,127 +1,452 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { db, auth } from '../../Data/firebase';
+import { 
+  collection, 
+  getDocs, 
+  addDoc, 
+  query, 
+  orderBy, 
+  onSnapshot, 
+  where,
+  doc,
+  updateDoc,
+  Timestamp,
+  serverTimestamp
+} from 'firebase/firestore';
+import { JitsiMeeting } from '@jitsi/react-sdk';
 import './ConsultasVirtuales.css';
-import { FaUser, FaEnvelope, FaPhoneAlt, FaQuestionCircle, FaComments, FaTools } from 'react-icons/fa';
 
-const ConsultasVirtuales = () => {
-  const [formVisible, setFormVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    nombre: '',
-    correo: '',
-    consulta: ''
-  });
-  const [activeTab, setActiveTab] = useState('form');
+const ConsultaPaciente = () => {
+  const [paciente, setPaciente] = useState(null);
+  const [medicos, setMedicos] = useState([]);
+  const [medicoSeleccionado, setMedicoSeleccionado] = useState(null);
+  const [mensajes, setMensajes] = useState([]);
+  const [nuevoMensaje, setNuevoMensaje] = useState('');
+  const [showVideoCall, setShowVideoCall] = useState(false);
+  const [videoCallId, setVideoCallId] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [unreadMessages, setUnreadMessages] = useState({});
+  const [activeCall, setActiveCall] = useState(null);
+  
+  const mensajesContainerRef = useRef(null);
 
-  const toggleForm = () => setFormVisible(!formVisible);
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Consulta enviada correctamente!');
-    setFormVisible(false);
+  // Función para generar ID de chat consistente
+  const getChatId = (uid1, uid2) => {
+    return [uid1, uid2].sort().join('_');
   };
-  const handleTabChange = (tab) => setActiveTab(tab);
 
-  const handleContactCall = () => alert('Llamando...');
-  const handleContactEmail = () => alert('Enviando correo...');
-  const handleSupport = () => alert('Conectando con soporte...');
-  const handleChat = () => alert('Iniciando chat...');
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          // Obtener información del paciente actual
+          const pacientesRef = collection(db, 'registropaciente');
+          const pacienteQuery = query(pacientesRef, where('uid', '==', user.uid));
+          
+          const pacienteSnapshot = await getDocs(pacienteQuery);
+          
+          if (!pacienteSnapshot.empty) {
+            const pacienteData = {
+              id: pacienteSnapshot.docs[0].id,
+              uid: user.uid,
+              ...pacienteSnapshot.docs[0].data()
+            };
+            setPaciente(pacienteData);
+
+            // Actualizar estado en línea del paciente
+            const pacienteDocRef = doc(db, 'registropaciente', pacienteData.id);
+            await updateDoc(pacienteDocRef, {
+              online: true,
+              lastActive: serverTimestamp()
+            });
+          } else {
+            setPaciente({
+              uid: user.uid,
+              nombre: user.displayName || 'Paciente',
+              email: user.email
+            });
+          }
+
+          // Obtener lista de médicos
+          const medicosRef = collection(db, 'registromedico');
+          const medicosSnapshot = await getDocs(medicosRef);
+          const medicosData = medicosSnapshot.docs.map(doc => ({
+            id: doc.id,
+            uid: doc.data().uid, // Asegurarse de que tenemos el uid
+            ...doc.data()
+          }));
+          setMedicos(medicosData);
+          
+          // Configurar escucha para mensajes no leídos
+          setupUnreadMessagesListener(user.uid, medicosData);
+          
+          // Configurar escucha para videollamadas activas
+          setupVideoCallListener(user.uid);
+          
+        } catch (err) {
+          console.error('Error al cargar datos:', err);
+          setError('Error al cargar los datos. Por favor, intente nuevamente.');
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setPaciente(null);
+        setLoading(false);
+        setError('Usuario no autenticado');
+      }
+    });
+
+    return () => {
+      unsubscribeAuth();
+      if (paciente?.id) {
+        const pacienteDocRef = doc(db, 'registropaciente', paciente.id);
+        updateDoc(pacienteDocRef, {
+          online: false,
+          lastActive: serverTimestamp()
+        }).catch(err => console.error("Error updating patient status:", err));
+      }
+    };
+  }, []);
+
+  const setupUnreadMessagesListener = (pacienteUid, medicosList) => {
+    const unsubscribers = [];
+    
+    medicosList.forEach(medico => {
+      if (!medico.uid) return; // Asegurarse de que el médico tiene uid
+      
+      const chatId = getChatId(medico.uid, pacienteUid);
+      const mensajesRef = collection(db, 'chats', chatId, 'mensajes');
+      
+      const mensajesQuery = query(
+        mensajesRef, 
+        where('receiver', '==', pacienteUid),
+        where('read', '==', false)
+      );
+      
+      const unsubscribe = onSnapshot(mensajesQuery, (snapshot) => {
+        setUnreadMessages(prev => ({
+          ...prev,
+          [medico.id]: snapshot.docs.length
+        }));
+      });
+      
+      unsubscribers.push(unsubscribe);
+    });
+    
+    return () => unsubscribers.forEach(unsubscribe => unsubscribe());
+  };
+
+  const setupVideoCallListener = (pacienteUid) => {
+    const videollamadasRef = collection(db, 'videollamadas');
+    const videoCallQuery = query(
+      videollamadasRef,
+      where('pacienteId', '==', pacienteUid),
+      where('active', '==', true)
+    );
+    
+    return onSnapshot(videoCallQuery, (snapshot) => {
+      if (!snapshot.empty) {
+        const callData = snapshot.docs[0].data();
+        setActiveCall(callData);
+        
+        if (!showVideoCall) {
+          setVideoCallId(callData.callId);
+          setMedicoSeleccionado(medicos.find(m => m.uid === callData.medicoId) || {
+            id: callData.medicoId,
+            nombre: callData.medicoNombre
+          });
+          setShowVideoCall(true);
+        }
+      } else {
+        setActiveCall(null);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (mensajesContainerRef.current) {
+      mensajesContainerRef.current.scrollTop = mensajesContainerRef.current.scrollHeight;
+    }
+  }, [mensajes]);
+  
+  useEffect(() => {
+    if (!paciente?.uid || !medicoSeleccionado?.uid) return;
+
+    const chatId = getChatId(medicoSeleccionado.uid, paciente.uid);
+    console.log("Cargando mensajes para chatId:", chatId);
+
+    const mensajesRef = collection(db, 'chats', chatId, 'mensajes');
+    const mensajesQuery = query(mensajesRef, orderBy('timestamp', 'asc'));
+
+    const unsubscribe = onSnapshot(mensajesQuery, (snapshot) => {
+      const mensajesData = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          timestamp: data.timestamp?.toDate ? data.timestamp.toDate() : new Date(data.timestamp)
+        };
+      });
+      setMensajes(mensajesData);
+      
+      // Marcar mensajes como leídos
+      snapshot.docs.forEach(async (docSnapshot) => {
+        const mensajeData = docSnapshot.data();
+        if (mensajeData.sender !== paciente.uid && !mensajeData.read) {
+          const mensajeRef = doc(db, 'chats', chatId, 'mensajes', docSnapshot.id);
+          await updateDoc(mensajeRef, {
+            read: true,
+            readAt: serverTimestamp()
+          });
+        }
+      });
+      
+      setUnreadMessages(prev => ({
+        ...prev,
+        [medicoSeleccionado.id]: 0
+      }));
+    }, (error) => {
+      console.error("Error loading messages:", error);
+      setError('Error al cargar los mensajes');
+    });
+
+    return () => unsubscribe();
+  }, [medicoSeleccionado, paciente]);
+
+  const seleccionarMedico = (medico) => {
+    setMedicoSeleccionado(medico);
+    setShowVideoCall(false);
+  };
+
+  const formatHora = (timestamp) => {
+    if (!timestamp) return '';
+    const fecha = timestamp instanceof Date ? timestamp : timestamp.toDate();
+    return fecha.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  };
+
+  const enviarMensaje = async (e) => {
+    e.preventDefault();
+    if (!nuevoMensaje.trim() || !paciente?.uid || !medicoSeleccionado?.uid) return;
+
+    try {
+      const chatId = getChatId(medicoSeleccionado.uid, paciente.uid);
+      const mensajesRef = collection(db, 'chats', chatId, 'mensajes');
+      
+      const mensaje = {
+        texto: nuevoMensaje,
+        sender: paciente.uid,
+        senderName: paciente.nombre,
+        senderType: 'paciente',
+        receiver: medicoSeleccionado.uid,
+        receiverName: medicoSeleccionado.nombre,
+        receiverType: 'medico',
+        timestamp: serverTimestamp(),
+        read: false
+      };
+      
+      await addDoc(mensajesRef, mensaje);
+      setNuevoMensaje('');
+      
+      if (mensajesContainerRef.current) {
+        setTimeout(() => {
+          mensajesContainerRef.current.scrollTop = mensajesContainerRef.current.scrollHeight;
+        }, 100);
+      }
+    } catch (err) {
+      console.error('Error al enviar mensaje:', err);
+      setError('Error al enviar el mensaje');
+    }
+  };
+
+  const unirseAVideollamada = (callId) => {
+    setVideoCallId(callId);
+    setShowVideoCall(true);
+    
+    const videollamadasRef = collection(db, 'videollamadas');
+    const q = query(videollamadasRef, where('callId', '==', callId));
+    
+    getDocs(q).then((querySnapshot) => {
+      querySnapshot.forEach((document) => {
+        updateDoc(doc(db, 'videollamadas', document.id), {
+          unido: true,
+          joinedAt: serverTimestamp()
+        });
+      });
+    });
+  };
+
+  const terminarVideollamada = () => {
+    if (videoCallId) {
+      const videollamadasRef = collection(db, 'videollamadas');
+      const q = query(videollamadasRef, where('callId', '==', videoCallId));
+      
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((document) => {
+          updateDoc(doc(db, 'videollamadas', document.id), {
+            active: false,
+            endedAt: serverTimestamp()
+          });
+        });
+      });
+    }
+    
+    setShowVideoCall(false);
+    setActiveCall(null);
+  };
+
+  if (loading) return <div className="loading">Cargando...</div>;
+  if (error && !paciente) return <div className="error">{error}</div>;
 
   return (
-    <div className="consultas-container">
-      <header className="consultas-header">
-        <img
-          src="https://cdn.getmidnight.com/f0f4b6598f2cee45644673998b4f44be/2021/07/close-up-patient-talking-doctor-online.jpg"
-          alt="Consultas Virtuales"
-          className="header-image"
-        />
-        <div className="header-content">
-          <h1>Consultas Virtuales</h1>
-          <p>¡Te ayudamos con lo que necesites! Selecciona una opción y realiza tu consulta.</p>
-        </div>
+    <div className="consulta-paciente-container">
+      <header className="app-header">
+        <h1>Sistema de Consulta Médica</h1>
+        {paciente && (
+          <div className="user-info">
+            <span>Paciente: {paciente.nombre}</span>
+          </div>
+        )}
       </header>
 
-      <nav className="navigation">
-        <button className={`nav-btn ${activeTab === 'form' ? 'active' : ''}`} onClick={() => handleTabChange('form')}>Formulario de Consulta</button>
-        <button className={`nav-btn ${activeTab === 'faq' ? 'active' : ''}`} onClick={() => handleTabChange('faq')}>Preguntas Frecuentes</button>
-        <button className={`nav-btn ${activeTab === 'contact' ? 'active' : ''}`} onClick={() => handleTabChange('contact')}>Contacto Rápido</button>
-        <button className={`nav-btn ${activeTab === 'support' ? 'active' : ''}`} onClick={() => handleTabChange('support')}>Soporte Técnico</button>
-      </nav>
-
-      {/* Formulario */}
-      {activeTab === 'form' && (
-        <section className="consultas-form">
-          <h2>Formulario de Consulta</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="nombre"><FaUser /> Nombre Completo</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                placeholder="Ingresa tu nombre"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="correo"><FaEnvelope /> Correo Electrónico</label>
-              <input
-                type="email"
-                id="correo"
-                name="correo"
-                value={formData.correo}
-                onChange={handleChange}
-                placeholder="Ingresa tu correo"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="consulta"><FaQuestionCircle /> Consulta</label>
-              <textarea
-                id="consulta"
-                name="consulta"
-                value={formData.consulta}
-                onChange={handleChange}
-                placeholder="Escribe tu consulta"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" className="submit-btn">Enviar Consulta</button>
-          </form>
-        </section>
-      )}
-
-      {/* Preguntas Frecuentes */}
-      {activeTab === 'faq' && (
-        <section className="consultas-faq">
-          <h2>Preguntas Frecuentes</h2>
-          <ul>
-            <li>¿Cómo puedo recibir una respuesta a mi consulta?</li>
-            <li>¿El servicio es gratuito?</li>
-            <li>¿Puedo realizar consultas por teléfono?</li>
+      <div className="main-content">
+        <aside className="medicos-sidebar">
+          <h2>Médicos Disponibles</h2>
+          <ul className="medicos-lista">
+            {medicos.map(medico => {
+              const unreadCount = unreadMessages[medico.id] || 0;
+              
+              return (
+                <li 
+                  key={medico.id} 
+                  className={`${medicoSeleccionado?.id === medico.id ? 'selected' : ''} 
+                              ${unreadCount > 0 ? 'unread' : ''}`}
+                  onClick={() => seleccionarMedico(medico)}
+                >
+                  <div className="medico-avatar">
+                    {medico.nombre?.charAt(0).toUpperCase() || 'D'}
+                    {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
+                  </div>
+                  <div className="medico-info">
+                    <h3>Dr. {medico.nombre || 'Médico'}</h3>
+                    {medico.especialidad && <p>Especialidad: {medico.especialidad}</p>}
+                    {medico.online 
+                      ? <span className="status-online">En línea</span>
+                      : medico.lastActive && <p>Última conexión: {formatHora(medico.lastActive)}</p>}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
-        </section>
-      )}
+          
+          {activeCall && !showVideoCall && (
+            <div className="videollamada-notificacion">
+              <p>El Dr. {activeCall.medicoNombre} te está llamando</p>
+              <button 
+                className="btn-unirse"
+                onClick={() => unirseAVideollamada(activeCall.callId)}
+              >
+                Unirse a Videollamada
+              </button>
+            </div>
+          )}
+        </aside>
 
-      {/* Contacto rápido */}
-      {activeTab === 'contact' && (
-        <section className="consultas-contact">
-          <h2>Contacto Rápido</h2>
-          <button className="contact-btn" onClick={handleContactCall}><FaPhoneAlt /> Llamar Ahora</button>
-          <button className="contact-btn" onClick={handleContactEmail}><FaEnvelope /> Enviar Correo</button>
-        </section>
-      )}
+        <main className="chat-container">
+          {!medicoSeleccionado ? (
+            <div className="empty-state">
+              <p>Selecciona un médico para comenzar una consulta</p>
+            </div>
+          ) : showVideoCall ? (
+            <div className="videollamada-container">
+              <div className="videollamada-header">
+                <h2>Videollamada con Dr. {medicoSeleccionado.nombre}</h2>
+                <button className="btn-terminar" onClick={terminarVideollamada}>
+                  Terminar Videollamada
+                </button>
+              </div>
+              <div className="jitsi-container">
+                <JitsiMeeting
+                  roomName={videoCallId}
+                  configOverwrite={{
+                    startWithAudioMuted: false,
+                    startWithVideoMuted: false,
+                    prejoinPageEnabled: false
+                  }}
+                  userInfo={{
+                    displayName: paciente?.nombre || 'Paciente',
+                    email: paciente?.email || '',
+                  }}
+                  getIFrameRef={(iframeRef) => {
+                    iframeRef.style.height = '100%';
+                    iframeRef.style.width = '100%';
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="chat-header">
+                <h2>Chat con Dr. {medicoSeleccionado.nombre}</h2>
+                <div className="medico-detalles">
+                  {medicoSeleccionado.especialidad && (
+                    <p>Especialidad: {medicoSeleccionado.especialidad}</p>
+                  )}
+                  {medicoSeleccionado.online 
+                    ? <p className="status-online">Médico en línea</p>
+                    : <p>Última conexión: {formatHora(medicoSeleccionado.lastActive)}</p>}
+                </div>
+              </div>
 
-      {/* Soporte Técnico */}
-      {activeTab === 'support' && (
-        <section className="consultas-support">
-          <h2>Soporte Técnico</h2>
-          <button className="support-btn" onClick={handleSupport}><FaTools /> Soporte Técnico</button>
-          <button className="support-btn" onClick={handleChat}><FaComments /> Chatea con Nosotros</button>
-        </section>
-      )}
+              <div className="mensajes-container" ref={mensajesContainerRef}>
+                {mensajes.length === 0 ? (
+                  <div className="empty-chat">
+                    <p>No hay mensajes. ¡Inicia la conversación!</p>
+                  </div>
+                ) : (
+                  mensajes.map(mensaje => (
+                    <div 
+                      key={mensaje.id} 
+                      className={`mensaje ${
+                        mensaje.isSystemMessage ? 'mensaje-sistema' : 
+                        mensaje.sender === paciente?.uid ? 'mensaje-enviado' : 'mensaje-recibido'
+                      }`}
+                    >
+                      <div className="mensaje-contenido">
+                        <div className="mensaje-remitente">
+                          {mensaje.isSystemMessage ? 'Sistema' : 
+                           mensaje.sender === paciente?.uid ? paciente.nombre : `Dr. ${medicoSeleccionado.nombre}`}
+                        </div>
+                        <p>{mensaje.texto}</p>
+                        <div className="mensaje-footer">
+                          <span className="mensaje-hora">
+                            {formatHora(mensaje.timestamp)}
+                          </span>
+                          {mensaje.sender === paciente?.uid && mensaje.read && 
+                            <span className="mensaje-leido">✓ Leído</span>}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <form className="mensaje-form" onSubmit={enviarMensaje}>
+                <input
+                  type="text"
+                  value={nuevoMensaje}
+                  onChange={(e) => setNuevoMensaje(e.target.value)}
+                  placeholder="Escribe tu mensaje..."
+                  className="mensaje-input"
+                />
+                <button type="submit" className="btn-enviar">Enviar</button>
+              </form>
+            </>
+          )}
+        </main>
+      </div>
     </div>
   );
 };
 
-export default ConsultasVirtuales;
+export default ConsultaPaciente;

@@ -15,12 +15,17 @@ import DashboardMedico from '../pages/Medico/InicioMedico';
 import PerfilMedico from '../pages/Medico/PerfilMedico';
 import ResultadosPacientes from '../pages/Medico/ResultadosPacientes';
 import Consultas from '../pages/Medico/ConsultasVirtualesMedico';
-
+import LoginMedico from '../pages/Principal/LoginMedico';
 
 import InicioAdministrador from '../pages/Administrador/InicioAdministrador';
 import GestionTurnos from '../pages/Administrador/GestionTurnos';
-import GestionUsuarios from '../pages/Administrador/GestionUsuarios';
+import GestionMedicos from '../pages/Administrador/GestionMedicos';
 import Reportes from '../pages/Administrador/Reportes';
+import LoginAdmin from '../pages/Administrador/LoginAdmin';
+import ConsultaMedicaApp from '../pages/Paciente/ConsultasVirtuales';
+import ConsultaMedica from '../pages/Medico/ConsultasVirtualesMedico';
+import CrearChat from '../pages/Paciente/ConsultasVirtuales';
+
 
 
 export const MisRutas = () => {
@@ -37,21 +42,27 @@ export const MisRutas = () => {
           <Route path="/inicio-paciente" element={<InicioPaciente />} />
           <Route path="/agendar-turno" element={<AgendarTurno />} />
           <Route path="/mis-turnos" element={<MisTurnos />} />
-          <Route path="/consultas-virtuales" element={<ConsultasVirtuales />} />
+          <Route path="/consultas-virtuales" element={<CrearChat />} />
           <Route path="/resultados-clinicos" element={<ResultadosClinicos />} />
           <Route path="/perfil" element={<PerfilPaciente />} />
+          <Route path="/turno-paciente" element={<crearTurno/>} />
           
           {/* Rutas de Medico */}
           <Route path="/inicio-medico" element={<DashboardMedico />} />
           <Route path="/agenda-medico" element={<AgendaMedico />} />
           <Route path="/perfil-medico" element={<PerfilMedico />} />
           <Route path='/resultados-pacientes' element={<ResultadosPacientes/>}/>
+          <Route path='/consultas' element={<ConsultaMedica/>}/>
+          
+        <Route path="/loginmedico" element={<LoginMedico/>} />
+        
 
 
           {/* Rutas de Administrador */}
+          <Route path='/login-administrador' element={<LoginAdmin />}/>
           <Route path='/inicio-administrador' element={<InicioAdministrador />}/>
           <Route path='/gestion-turnos' element={<GestionTurnos />}/>
-          <Route path='/gestion-usuarios' element={<GestionUsuarios  />}/> 
+          <Route path='/gestion-medicos' element={<GestionMedicos />}/>
           <Route path='/reportes' element={<Reportes />}/>
         </Routes>
       </BrowserRouter>

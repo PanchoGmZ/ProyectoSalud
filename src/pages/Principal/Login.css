@@ -1,76 +1,376 @@
-/* Fondo general */
+/* Login.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+:root {
+  --primary: #3a86ff;
+  --secondary: #00b4d8;
+  --accent: #ff006e;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --success: #28a745;
+  --warning: #fd7e14;
+  --sky-blue: #90e0ef;
+  --deep-blue: #0077b6;
+}
+
+/* Estilos base */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #001f3f, #005f73);
-    margin: 0;
-    padding: 0;
-    height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--sky-blue), var(--primary));
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Elementos médicos flotantes */
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  filter: blur(5px);
+  z-index: 0;
+  animation: float-cloud linear infinite;
+}
+
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: calc(var(--cloud-size) * 0.6);
+  height: calc(var(--cloud-size) * 0.6);
+  top: -30%;
+  left: 20%;
+}
+
+.cloud::after {
+  width: calc(var(--cloud-size) * 0.4);
+  height: calc(var(--cloud-size) * 0.4);
+  top: -20%;
+  right: 20%;
+}
+
+.medical-element {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.6;
+  animation: float-medical ease-in-out infinite;
+}
+
+.cross {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+}
+
+.pill {
+  width: 30px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+.heartbeat {
+  color: rgba(255, 0, 0, 0.5);
+  font-size: 1.8rem;
+}
+
+/* ECG Line Animation */
+.ecg-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  z-index: 0;
+  animation: ecg-move 6s linear infinite;
+}
+
+.ecg-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  animation: ecg-pulse 1.5s linear infinite;
+}
+
+/* Login Box */
+.login-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.login-box:hover {
+  transform: translateY(-5px);
+}
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  animation: rainbow 8s linear infinite;
+}
+
+.welcome-text {
+  color: var(--dark);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.welcome-text::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 3px;
+  animation: pulse 2s infinite;
+}
+
+.subtitle {
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.input-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.error-text {
+  color: #ff3333;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  animation: shake 0.5s ease;
+}
+
+.login-button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.login-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(45deg, var(--secondary), var(--primary));
+}
+
+.login-button:active {
+  transform: translateY(1px);
+}
+
+.login-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.link-text {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.link-text a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.link-text a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes float-cloud {
+  0% {
+    transform: translateX(-100%);
   }
-  
-  /* Contenedor principal */
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 20px;
+  100% {
+    transform: translateX(100vw);
   }
+}
+
+@keyframes float-medical {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) rotate(-5deg);
+  }
+}
+
+@keyframes ecg-move {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes ecg-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Burbujas flotantes */
+.bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: float-bubble ease-in-out infinite;
+}
+
+@keyframes float-bubble {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  50% {
+    transform: translateY(0) translateX(20px);
+  }
+  75% {
+    transform: translateY(-10px) translateX(-10px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .login-box {
-    background-color: #ffffff;
-    padding: 50px 35px;
-    border-radius: 16px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 380px;
-    animation: fadeIn 0.6s ease-in-out;
+    padding: 1.5rem;
+    margin: 0 1rem;
   }
   
-  /* Título */
   .welcome-text {
-    font-size: 26px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
   }
-  
-  /* Subtítulo */
-  .subtitle {
-    font-size: 14px;
-    color: #666;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  /* Inputs */
-  .input-field {
-    width: 100%;
-    padding: 14px 16px;
-    margin: 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 15px;
-  }
-  
-  /* Botón */
-  .login-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 25px;
-    margin-bottom: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  /* Texto de enlace */
-  .link-text {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #333;
-  }
+}

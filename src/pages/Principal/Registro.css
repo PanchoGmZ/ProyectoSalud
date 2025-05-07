@@ -1,81 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  --secondary: #10b981;
+  --accent: #ec4899;
+  --light: #f8fafc;
+  --dark: #1e293b;
+  --gray: #94a3b8;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  --glass: rgba(255, 255, 255, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-    padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #b3e5fc);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fondo médico animado con ECG */
+.medical-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  background: 
+    url('https://img.freepik.com/free-vector/medical-background-with-abstract-wave-lines_53876-117857.jpg') center/cover,
+    linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(16, 185, 129, 0.1));
+  opacity: 0.15;
+  animation: bgPulse 20s infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.15;
   }
-  
-  .registro-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  100% {
+    transform: scale(1.05);
+    opacity: 0.2;
   }
-  
+}
+
+/* ECG Line Animation */
+.ecg-line {
+  position: fixed;
+  bottom: 20%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 20%,
+    var(--accent) 20%,
+    var(--accent) 21%,
+    transparent 21%,
+    transparent 40%,
+    var(--accent) 40%,
+    var(--accent) 44%,
+    transparent 44%,
+    transparent 45%,
+    var(--accent) 45%,
+    var(--accent) 46%,
+    transparent 46%,
+    transparent 60%,
+    var(--accent) 60%,
+    var(--accent) 70%,
+    transparent 70%,
+    transparent 100%
+  );
+  opacity: 0.1;
+  animation: ecgMove 12s linear infinite;
+}
+
+@keyframes ecgMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Contenedor principal */
+.registro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Formulario de registro con efecto vidrio */
+.registro-box {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  animation: fadeInUp 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.registro-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  z-index: -1;
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Encabezado del formulario */
+.welcome-text {
+  font-size: 2.2rem;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+  text-align: center;
+  position: relative;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: textShine 3s ease infinite;
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.welcome-text::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  border-radius: 2px;
+  animation: lineExtend 1s ease-out forwards;
+}
+
+@keyframes lineExtend {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80px;
+  }
+}
+
+.subtitle {
+  color: var(--gray);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  animation: fadeIn 1s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Campos del formulario */
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Animaciones escalonadas para los campos */
+.input-group:nth-child(1) { animation-delay: 0.1s; }
+.input-group:nth-child(2) { animation-delay: 0.2s; }
+.input-group:nth-child(3) { animation-delay: 0.3s; }
+.input-group:nth-child(4) { animation-delay: 0.4s; }
+.input-group:nth-child(5) { animation-delay: 0.5s; }
+.input-group:nth-child(6) { animation-delay: 0.6s; }
+.input-group:nth-child(7) { animation-delay: 0.7s; }
+
+.input-group i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray);
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.input-field {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: var(--dark);
+  transition: var(--transition);
+  background-color: rgba(241, 245, 249, 0.7);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  transform: translateY(-3px);
+  background-color: white;
+}
+
+.input-field:focus + i {
+  color: var(--primary);
+  transform: translateY(-50%) scale(1.2);
+}
+
+.input-field::placeholder {
+  color: var(--gray);
+  opacity: 0.7;
+}
+
+/* Botón de registro animado */
+.registro-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.registro-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.registro-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.registro-button:hover::before {
+  left: 100%;
+}
+
+.registro-button:active {
+  transform: translateY(-1px);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(37, 99, 235, 0);
+  }
+}
+
+/* Enlace de ayuda */
+.link-text {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--gray);
+  font-size: 0.9rem;
+  animation: fadeIn 1s ease-out;
+}
+
+.link-text a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+}
+
+.link-text a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: var(--transition);
+}
+
+.link-text a:hover::after {
+  width: 100%;
+}
+
+/* Elementos médicos flotantes */
+.medical-icon {
+  position: absolute;
+  font-size: 2rem;
+  color: rgba(37, 99, 235, 0.1);
+  animation: floatIcon 25s linear infinite;
+  z-index: 0;
+  transition: all 0.3s ease;
+}
+
+.medical-icon:hover {
+  color: rgba(236, 72, 153, 0.2);
+  transform: scale(1.2);
+}
+
+@keyframes floatIcon {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(100vw, -100vh) rotate(360deg);
+  }
+}
+
+/* Partículas animadas */
+.particle {
+  position: absolute;
+  background-color: rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  animation: floatParticle 15s linear infinite;
+  z-index: 5;
+  filter: blur(1px);
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .registro-box {
-    background-color: #ffffff;
-    padding: 25px 25px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 340px;
-    box-sizing: border-box;
+    padding: 2rem;
   }
   
   .welcome-text {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 10px;
+    font-size: 1.8rem;
   }
   
   .input-field {
-    width: 100%;
-    padding: 12px 14px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    background-color: #fcfcfc;
-    box-sizing: border-box;
-  }
-  
-  .input-field:focus {
-    border-color: #007bff;
-    outline: none;
+    padding: 0.8rem 0.8rem 0.8rem 2.5rem;
   }
   
   .registro-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 5px;
+    padding: 0.8rem;
   }
   
-  .registro-button:hover {
-    background-color: #0056b3;
+  .medical-icon {
+    font-size: 1.5rem;
   }
-  
-  .link-text {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 13px;
-    color: #333;
-  }
-  
-  .link-text a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .link-text a:hover {
-    text-decoration: underline;
-  }
+}

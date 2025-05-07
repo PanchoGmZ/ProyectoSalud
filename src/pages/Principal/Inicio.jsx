@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Inicio.css'; 
@@ -22,7 +23,7 @@ export default function Inicio() {
           <div className="link-group">
             <button 
               className={`nav-button ${hoverButton === 'pacientes' ? 'active' : ''}`}
-              onClick={() => navigate('/inicio-paciente')}
+              onClick={() => navigate('/login')}
               onMouseEnter={() => setHoverButton('pacientes')}
               onMouseLeave={() => setHoverButton(null)}
             >
@@ -33,7 +34,7 @@ export default function Inicio() {
           <div className="link-group">
             <button 
               className={`nav-button ${hoverButton === 'medicos' ? 'active' : ''}`}
-              onClick={() => navigate('/inicio-medico')}
+              onClick={() => navigate('/loginmedico')}
               onMouseEnter={() => setHoverButton('medicos')}
               onMouseLeave={() => setHoverButton(null)}
             >
@@ -44,7 +45,7 @@ export default function Inicio() {
           <div className="link-group">
             <button 
               className={`nav-button ${hoverButton === 'admin' ? 'active' : ''}`}
-              onClick={() => navigate('/inicio-administrador')}
+              onClick={() => navigate('/login-administrador')}
               onMouseEnter={() => setHoverButton('admin')}
               onMouseLeave={() => setHoverButton(null)}
             >

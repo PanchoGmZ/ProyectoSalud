@@ -1,170 +1,185 @@
-/* Estilos base */
+
 .mis-turnos-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .mis-turnos-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .mis-turnos-header h1 {
-    color: #94a4b5;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.8rem;
-  }
-  
-  /* Filtros */
-  .filtros {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #f0f7ff;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-  }
-  
-  .filtro-select {
-    padding: 8px 12px;
-    border: 1px solid #A6D1FF;
-    border-radius: 6px;
-    background: white;
-    cursor: pointer;
-  }
-  
-  /* Listado de turnos */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mis-turnos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.mis-turnos-header h1 {
+  color: #94a4b5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.8rem;
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0f7ff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.filtro-select {
+  padding: 8px 12px;
+  border: 1px solid #A6D1FF;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
+
+.turnos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.turno-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid;
+}
+
+.turno-card.confirmado {
+  border-left-color: #4EE5C1;
+}
+
+.turno-card.pendiente {
+  border-left-color: #FFC107;
+}
+
+.turno-card.cancelado {
+  border-left-color: #F44336;
+  opacity: 0.8;
+}
+
+.turno-info {
+  flex-grow: 1;
+}
+
+.turno-info h3 {
+  color: #002B5B;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.turno-info p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #455A64;
+  margin: 0.5rem 0;
+}
+
+
+.estado-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.estado-badge.confirmado {
+  background: #E0F7FA;
+  color: #00838F;
+}
+
+.estado-badge.pendiente {
+  background: #FFF8E1;
+  color: #FF8F00;
+}
+
+.estado-badge.cancelado {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+
+.turno-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 10px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn.edit {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+.action-btn.cancel {
+  background: #FFEBEE;
+  color: #D32F2F;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.no-turnos {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #607D8B;
+}
+
+
+@media (max-width: 768px) {
   .turnos-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
   
-  .turno-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    border-left: 4px solid;
-  }
-  
-  .turno-card.confirmado {
-    border-left-color: #4EE5C1;
-  }
-  
-  .turno-card.pendiente {
-    border-left-color: #FFC107;
-  }
-  
-  .turno-card.cancelado {
-    border-left-color: #F44336;
-    opacity: 0.8;
-  }
-  
-  .turno-info {
-    flex-grow: 1;
-  }
-  
-  .turno-info h3 {
-    color: #002B5B;
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-  
-  .turno-info p {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #455A64;
-    margin: 0.5rem 0;
-  }
-  
-  /* Estado */
-  .estado-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-align: center;
-  }
-  
-  .estado-badge.confirmado {
-    background: #E0F7FA;
-    color: #00838F;
-  }
-  
-  .estado-badge.pendiente {
-    background: #FFF8E1;
-    color: #FF8F00;
-  }
-  
-  .estado-badge.cancelado {
-    background: #FFEBEE;
-    color: #C62828;
-  }
-  
-  /* Acciones */
   .turno-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.5rem;
-    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .action-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .action-btn.edit {
-    background: #E3F2FD;
-    color: #1565C0;
-  }
-  
-  .action-btn.cancel {
-    background: #FFEBEE;
-    color: #D32F2F;
-  }
-  
-  .action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Sin turnos */
-  .no-turnos {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem;
-    color: #607D8B;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .turnos-list {
-      grid-template-columns: 1fr;
-    }
-    
-    .turno-actions {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
+}
+.btn-exportar {
+  margin-left: 10px;
+  padding: 7px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-exportar:hover {
+  background-color: #0056b3;
+}

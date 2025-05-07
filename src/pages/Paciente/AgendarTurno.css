@@ -1,4 +1,4 @@
-/* Estilos base */
+
 .agendar-turno-container {
     background: linear-gradient(135deg, #002B5B 0%, #1a4b8c 100%);
     min-height: 100vh;
@@ -59,7 +59,7 @@
     cursor: pointer;
   }
   
-  /* Botón */
+
   .submit-button {
     width: 100%;
     padding: 15px;
@@ -80,7 +80,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
   
-  /* Responsive */
+  
   @media (max-width: 600px) {
     .agendar-turno-card {
       padding: 1.5rem;
