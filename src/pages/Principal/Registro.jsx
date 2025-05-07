@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
+=======
+import React, { useState } from 'react';
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +22,7 @@ const Registro = () => {
 
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   useEffect(() => {
     const medicalIcons = [
       'fa-heartbeat', 'fa-stethoscope', 'fa-hospital', 'fa-user-md', 
@@ -68,6 +73,8 @@ const Registro = () => {
     };
   }, []);
 
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -111,14 +118,20 @@ const Registro = () => {
 
   return (
     <div className="registro-container">
+<<<<<<< HEAD
       
       
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
       <form className="registro-box" onSubmit={handleSubmit}>
         <h2 className="welcome-text">Registro de Paciente</h2>
         <p className="subtitle">Complete todos los campos requeridos</p>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-user"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="text" 
             name="nombre" 
@@ -131,7 +144,10 @@ const Registro = () => {
         </div>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-id-card"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="text" 
             name="usuario" 
@@ -144,7 +160,10 @@ const Registro = () => {
         </div>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-phone"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="number" 
             name="telefono" 
@@ -157,7 +176,10 @@ const Registro = () => {
         </div>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-calendar-alt"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="date" 
             name="fecha" 
@@ -169,7 +191,10 @@ const Registro = () => {
         </div>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-map-marker-alt"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="text" 
             name="direccion" 
@@ -182,7 +207,10 @@ const Registro = () => {
         </div>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-envelope"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="email" 
             name="correo" 
@@ -195,7 +223,10 @@ const Registro = () => {
         </div>
 
         <div className="input-group">
+<<<<<<< HEAD
           <i className="fas fa-lock"></i>
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           <input 
             type="password" 
             name="contrasena" 
@@ -208,7 +239,11 @@ const Registro = () => {
         </div>
 
         <button type="submit" className="registro-button">
+<<<<<<< HEAD
           REGISTRARSE <i className="fas fa-arrow-right"></i>
+=======
+          REGISTRARSE
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
         </button>
         
         <p className="link-text">
@@ -219,4 +254,8 @@ const Registro = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Registro;
+=======
+export default Registro;
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Estilos generales */
+=======
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .calendar-container {
   max-width: 1200px;
   margin: 2rem auto;
@@ -9,7 +13,11 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+<<<<<<< HEAD
 /* Estilos del header */
+=======
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -54,7 +62,10 @@
   background-color: #e0f2fe;
 }
 
+<<<<<<< HEAD
 /* Loading indicator */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .loading-indicator {
   display: flex;
   flex-direction: column;
@@ -77,14 +88,20 @@
   to { transform: rotate(360deg); }
 }
 
+<<<<<<< HEAD
 /* Vista de calendario */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .calendar-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
 }
 
+<<<<<<< HEAD
 /* Columna del calendario */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .calendar-column {
   background-color: #f9fafb;
   border-radius: 8px;
@@ -124,7 +141,10 @@
   color: #1e3a8a;
 }
 
+<<<<<<< HEAD
 /* Rejilla del calendario */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .weekdays-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -235,7 +255,10 @@
   background-color: transparent;
 }
 
+<<<<<<< HEAD
 /* Leyenda */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .calendar-legend {
   background-color: #f8fafc;
   border-radius: 8px;
@@ -341,7 +364,10 @@
   line-height: 1.5;
 }
 
+<<<<<<< HEAD
 /* Vista de detalles */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .detail-view {
   background-color: #f9fafb;
   border-radius: 8px;
@@ -369,7 +395,10 @@
   gap: 2rem;
 }
 
+<<<<<<< HEAD
 /* Citas existentes */
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .existing-appointments {
   background-color: #ffffff;
   border-radius: 8px;
@@ -540,7 +569,11 @@
   font-style: italic;
 }
 
+<<<<<<< HEAD
 /* Formulario de reserva */
+=======
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 .booking-container {
   display: none;
   background-color: #ffffff;

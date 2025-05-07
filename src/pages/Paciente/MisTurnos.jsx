@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+<<<<<<< HEAD
   FiCalendar, FiClock, FiUser, FiFilter, FiTrash2, FiEdit, FiDownload
 } from 'react-icons/fi';
 import { 
@@ -18,6 +19,21 @@ import { db } from '../../Data/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+=======
+  FiCalendar, FiClock, FiUser, FiFilter, FiTrash2
+} from 'react-icons/fi';
+import {
+  collection,
+  query,
+  where,
+  doc,
+  onSnapshot,
+  runTransaction,
+  serverTimestamp
+} from 'firebase/firestore';
+import { db } from '../../Data/firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 import './MisTurnos.css';
 
 const MisTurnos = () => {
@@ -35,7 +51,11 @@ const MisTurnos = () => {
             collection(db, "agentdaturno"),
             where("pacienteId", "==", user.uid)
           );
+<<<<<<< HEAD
           
+=======
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           const unsubscribeSnapshot = onSnapshot(q, (querySnapshot) => {
             const turnosData = querySnapshot.docs.map(doc => ({
               id: doc.id,
@@ -45,7 +65,11 @@ const MisTurnos = () => {
             setTurnos(turnosData);
             setLoading(false);
           });
+<<<<<<< HEAD
           
+=======
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           return () => unsubscribeSnapshot();
         } catch (error) {
           console.error("Error al obtener turnos:", error);
@@ -69,16 +93,24 @@ const MisTurnos = () => {
     if (window.confirm('¿Estás seguro de cancelar este turno?')) {
       try {
         const turnoACancelar = turnos.find(turno => turno.id === id);
+<<<<<<< HEAD
         
         await runTransaction(db, async (transaction) => {
           // 1. Actualizar en agentdaturno
+=======
+
+        await runTransaction(db, async (transaction) => {
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           const agentdaturnoRef = doc(db, "agentdaturno", id);
           transaction.update(agentdaturnoRef, {
             estado: 'cancelado',
             updatedAt: serverTimestamp()
           });
 
+<<<<<<< HEAD
           // 2. Si existe referencia a appointment, actualizarlo también
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
           if (turnoACancelar.appointmentId) {
             const appointmentRef = doc(db, "appointments", turnoACancelar.appointmentId);
             transaction.update(appointmentRef, {
@@ -88,16 +120,24 @@ const MisTurnos = () => {
           }
         });
 
+<<<<<<< HEAD
         // Actualizar estado local
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
         setTurnos(turnos.map(turno =>
           turno.id === id ? { ...turno, estado: 'cancelado' } : turno
         ));
 
+<<<<<<< HEAD
         alert('Turno cancelado con éxito en ambos sistemas');
+=======
+        alert('Turno cancelado con éxito');
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
       } catch (error) {
         console.error("Error al cancelar turno:", error);
         alert('Error al cancelar el turno');
       }
+<<<<<<< HEAD
     }
   };
 
@@ -141,12 +181,12 @@ const MisTurnos = () => {
     } catch (error) {
       console.error("Error al reprogramar turno:", error);
       alert('Error al reprogramar el turno');
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
     }
   };
 
-  const editarTurno = (id) => {
-    navigate(`/editar-turno/${id}`);
-  };
+  if (loading) return <div className="loading">Cargando tus turnos...</div>;
 
   const exportarAPDF = () => {
     const doc = new jsPDF();
@@ -216,6 +256,7 @@ const MisTurnos = () => {
                 </span>
 
                 {turno.estado !== 'cancelado' && (
+<<<<<<< HEAD
                   <>
                     <button
                       onClick={() => cancelarTurno(turno.id)}
@@ -224,6 +265,14 @@ const MisTurnos = () => {
                       <FiTrash2 /> Cancelar
                     </button>
                   </>
+=======
+                  <button
+                    onClick={() => cancelarTurno(turno.id)}
+                    className="action-btn cancel"
+                  >
+                    <FiTrash2 /> Cancelar
+                  </button>
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
                 )}
               </div>
             </div>

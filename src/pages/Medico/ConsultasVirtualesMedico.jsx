@@ -26,9 +26,17 @@ const ConsultaMedica = () => {
   const [error, setError] = useState(null);
   const mensajesContainerRef = useRef(null);
 
+<<<<<<< HEAD
   // Función para generar un ID de chat consistente
   const getChatId = (uid1, uid2) => {
     return [uid1, uid2].sort().join('_');
+=======
+
+
+  const filtrarConsultas = () => {
+    if (filtro === 'todas') return consultas;
+    return consultas.filter((consulta) => consulta.tipo === filtro);
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   };
 
   useEffect(() => {

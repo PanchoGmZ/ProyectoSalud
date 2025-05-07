@@ -11,7 +11,11 @@ const DashboardMedico = () => {
         <nav className="menu-links">
           <Link to="/inicio-medico" className="activo">Inicio</Link>
           <Link to="/agenda-medico">Agenda</Link>
+<<<<<<< HEAD
           <Link to="/consultas">Consultas Virtuales</Link>
+=======
+         
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 
        
           <Link to="/resultados-pacientes">Resultados</Link>

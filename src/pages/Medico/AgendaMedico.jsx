@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { 
   collection, 
   getDocs, 
@@ -14,6 +15,9 @@ import {
   runTransaction, 
   serverTimestamp 
 } from "firebase/firestore";
+=======
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where, onSnapshot, Timestamp, runTransaction, serverTimestamp } from "firebase/firestore";
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
 import { db } from "../../Data/firebase"; 
 import "./AgendaMedico.css";
 
@@ -29,21 +33,34 @@ const AgendaMedico = () => {
     patientName: "",
     appointmentType: "presencial",
     timeSlot: "09:00",
+<<<<<<< HEAD
     status: "pendiente",
     notes: ""
+=======
+    status: "pendiente" 
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   });
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [rescheduleMode, setRescheduleMode] = useState(false);
+<<<<<<< HEAD
   const [errorMessage, setErrorMessage] = useState("");
 
   // Horarios disponibles para citas
+=======
+
+  
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const timeSlots = [
     "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",  
     "12:00", "12:30", "13:00", "15:00", "15:30", "16:00", "16:30"
   ];
 
+<<<<<<< HEAD
   // Opciones de estado de citas con sus respectivos colores
+=======
+ 
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const statusOptions = {
     pendiente: { label: "Pendiente", color: "#f59e0b" },
     confirmada: { label: "Confirmada", color: "#10b981" },
@@ -51,12 +68,17 @@ const AgendaMedico = () => {
     cancelada: { label: "Cancelada", color: "#ef4444" }
   };
 
+<<<<<<< HEAD
   // Cargar citas desde Firestore al iniciar
+=======
+  
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   useEffect(() => {
     const loadAppointments = async () => {
       setLoading(true);
       try {
         const appointmentsRef = collection(db, "appointments");
+<<<<<<< HEAD
         
         // Usar onSnapshot para mantener la información actualizada en tiempo real
         const unsubscribe = onSnapshot(appointmentsRef, (snapshot) => {
@@ -108,6 +130,29 @@ const AgendaMedico = () => {
   }, []);
 
   // Función para obtener los datos del mes actual
+=======
+        const unsubscribe = onSnapshot(appointmentsRef, (snapshot) => {
+          const appointmentsData = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              ...data,
+              date: data.date.toDate ? data.date.toDate() : new Date(data.date)
+            };
+          });
+          setAppointments(appointmentsData);
+          setLoading(false);
+        });
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error loading appointments:", error);
+        setLoading(false);
+      }
+    };
+    loadAppointments();
+  }, []);
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const getMonthData = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -123,7 +168,11 @@ const AgendaMedico = () => {
   
   const monthData = getMonthData(currentDate);
   
+<<<<<<< HEAD
   // Navegación entre meses
+=======
+ 
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const handlePrevMonth = () => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() - 1);
@@ -138,7 +187,11 @@ const AgendaMedico = () => {
     setShowBookingForm(false);
   };
   
+<<<<<<< HEAD
   // Manejar clic en un día del calendario
+=======
+  
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const handleDayClick = (day) => {
     const clickedDate = new Date(monthData.year, monthData.month, day);
     
@@ -162,19 +215,32 @@ const AgendaMedico = () => {
     setViewMode("details");
     setIsEditing(false);
     setRescheduleMode(false);
+<<<<<<< HEAD
     setSelectedAppointment(null);
     
     // Reiniciar el formulario
+=======
+    
+  
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
     setBookingDetails({
       patientName: "",
       appointmentType: "presencial",
       timeSlot: "09:00",
+<<<<<<< HEAD
       status: "pendiente",
       notes: ""
     });
   };
   
   // Manejar cambios en el formulario
+=======
+      status: "pendiente"
+    });
+  };
+  
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setBookingDetails(prev => ({
@@ -183,28 +249,41 @@ const AgendaMedico = () => {
     }));
   };
  
+<<<<<<< HEAD
   // Volver a la vista de calendario
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const handleBackClick = () => {
     setViewMode("calendar");
     setShowBookingForm(false);
     setIsEditing(false);
     setRescheduleMode(false);
     setSelectedAppointment(null);
+<<<<<<< HEAD
     setErrorMessage("");
   };
 
   // Cancelar edición
+=======
+  };
+
+
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const handleCancelEdit = () => {
     setIsEditing(false);
     setRescheduleMode(false);
     setSelectedAppointment(null);
+<<<<<<< HEAD
     setErrorMessage("");
     
     // Reiniciar el formulario
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
     setBookingDetails({
       patientName: "",
       appointmentType: "presencial",
       timeSlot: "09:00",
+<<<<<<< HEAD
       status: "pendiente",
       notes: ""
     });
@@ -459,9 +538,225 @@ const AgendaMedico = () => {
       console.error("Error al procesar la acción de cita:", error);
       setErrorMessage(`Ocurrió un error: ${error.message}`);
     }
+=======
+      status: "pendiente"
+    });
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   };
+
   
+<<<<<<< HEAD
   // Obtener citas para un día específico
+=======
+  const handleBookAppointment = async () => {
+    if (!bookingDetails.patientName) {
+      alert("Por favor ingrese el nombre del paciente");
+      return;
+    }
+  
+    try {
+      const existingAppointment = appointments.find(
+        app => 
+          app.date.getDate() === selectedDate.getDate() &&
+          app.date.getMonth() === selectedDate.getMonth() &&
+          app.date.getFullYear() === selectedDate.getFullYear() &&
+          app.timeSlot === bookingDetails.timeSlot &&
+          app.status !== "cancelada" 
+      );
+  
+      if (existingAppointment && !isEditing) {
+        alert("Ya existe una cita programada para este horario. Por favor seleccione otro horario.");
+        return;
+      }
+  
+      if (isEditing && selectedAppointment) {
+        const appointmentRef = doc(db, "appointments", selectedAppointment.id);
+        
+        if (rescheduleMode) {
+          await runTransaction(db, async (transaction) => {
+            // Actualizar la cita en appointments
+            transaction.update(appointmentRef, {
+              timeSlot: bookingDetails.timeSlot,
+              appointmentType: bookingDetails.appointmentType,
+              status: "reprogramada",
+              lastUpdated: serverTimestamp()
+            });
+  
+            // Si existe referencia a agentdaturno, actualizarlo también
+            if (selectedAppointment.agentdaturnoId) {
+              const agentdaturnoRef = doc(db, "agentdaturno", selectedAppointment.agentdaturnoId);
+              transaction.update(agentdaturnoRef, {
+                hora: bookingDetails.timeSlot,
+                tipoconsulta: bookingDetails.appointmentType,
+                estado: "reprogramado",
+                updatedAt: serverTimestamp()
+              });
+            }
+          });
+  
+          alert("Cita reprogramada con éxito en ambos sistemas");
+        } else {
+          await runTransaction(db, async (transaction) => {
+            // Actualizar la cita en appointments
+            transaction.update(appointmentRef, {
+              patientName: bookingDetails.patientName,
+              appointmentType: bookingDetails.appointmentType,
+              timeSlot: bookingDetails.timeSlot,
+              status: bookingDetails.status,
+              lastUpdated: serverTimestamp()
+            });
+  
+            // Si existe referencia a agentdaturno, actualizarlo también
+            if (selectedAppointment.agentdaturnoId) {
+              const agentdaturnoRef = doc(db, "agentdaturno", selectedAppointment.agentdaturnoId);
+              transaction.update(agentdaturnoRef, {
+                pacienteNombre: bookingDetails.patientName,
+                tipoconsulta: bookingDetails.appointmentType,
+                hora: bookingDetails.timeSlot,
+                estado: bookingDetails.status === "confirmada" ? "confirmado" : "pendiente",
+                updatedAt: serverTimestamp()
+              });
+            }
+          });
+  
+          alert("Cita actualizada con éxito en ambos sistemas");
+        }
+      } else {
+        // Crear nueva cita (aquí deberías también crear el documento en agentdaturno)
+        const newAppointmentRef = await addDoc(collection(db, "appointments"), {
+          date: selectedDate,
+          patientName: bookingDetails.patientName,
+          appointmentType: bookingDetails.appointmentType,
+          timeSlot: bookingDetails.timeSlot,
+          status: "pendiente",
+          createdAt: serverTimestamp(),
+          lastUpdated: serverTimestamp()
+        });
+  
+        // Crear el documento correspondiente en agentdaturno
+        await addDoc(collection(db, "agentdaturno"), {
+          pacienteId: "", // Aquí deberías incluir el ID del paciente
+          pacienteNombre: bookingDetails.patientName,
+          especialidad: "", // Especialidad del médico
+          medico: "", // Nombre del médico
+          fecha: selectedDate,
+          hora: bookingDetails.timeSlot,
+          tipoconsulta: bookingDetails.appointmentType,
+          estado: "pendiente",
+          appointmentId: newAppointmentRef.id, // Referencia a la cita
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+  
+        alert("Consulta programada con éxito en ambos sistemas");
+      }
+  
+      setBookingDetails({
+        patientName: "",
+        appointmentType: "presencial",
+        timeSlot: "09:00",
+        status: "pendiente"
+      });
+      
+      setIsEditing(false);
+      setRescheduleMode(false);
+      setSelectedAppointment(null);
+    } catch (error) {
+      console.error("Error saving appointment:", error);
+      alert("Ocurrió un error al guardar la cita. Por favor intente de nuevo.");
+    }
+  };
+
+ 
+  const handleAppointmentAction = async (appointment, action) => {
+    try {
+      if (!appointment || !appointment.id) {
+        throw new Error("La cita no está definida correctamente");
+      }
+  
+      const appointmentRef = doc(db, "appointments", appointment.id);
+  
+      if (action === "confirmar") {
+        if (!appointment.agentdaturnoId) {
+          throw new Error("El ID del agente de turno no está definido");
+        }
+  
+        const agentdaturnoRef = doc(db, "agentdaturno", appointment.agentdaturnoId);
+  
+        await runTransaction(db, async (transaction) => {
+          const appointmentDoc = await transaction.get(appointmentRef);
+          const agentDoc = await transaction.get(agentdaturnoRef);
+  
+          if (!appointmentDoc.exists() || !agentDoc.exists()) {
+            throw new Error("No se pudo encontrar la cita o el agente de turno");
+          }
+  
+          transaction.update(appointmentRef, {
+            status: "confirmada",
+            lastUpdated: serverTimestamp()
+          });
+  
+          transaction.update(agentdaturnoRef, {
+            estado: "confirmado",
+            updatedAt: serverTimestamp()
+          });
+        });
+  
+        alert("Cita confirmada exitosamente en ambos sistemas");
+      }
+      else if (action === "cancelar") {
+        if (!window.confirm("¿Está seguro que desea cancelar esta cita?")) {
+          return;
+        }
+  
+        await runTransaction(db, async (transaction) => {
+          // Actualizar la cita en appointments
+          transaction.update(appointmentRef, {
+            status: "cancelada",
+            lastUpdated: serverTimestamp()
+          });
+  
+          // Si existe referencia a agentdaturno, actualizarlo también
+          if (appointment.agentdaturnoId) {
+            const agentdaturnoRef = doc(db, "agentdaturno", appointment.agentdaturnoId);
+            transaction.update(agentdaturnoRef, {
+              estado: "cancelado",
+              updatedAt: serverTimestamp()
+            });
+          }
+        });
+  
+        alert("Cita cancelada exitosamente en ambos sistemas");
+      }
+      else if (action === "reprogramar") {
+        setIsEditing(true);
+        setRescheduleMode(true);
+        setSelectedAppointment(appointment);
+        setBookingDetails({
+          patientName: appointment.patientName,
+          appointmentType: appointment.appointmentType,
+          timeSlot: appointment.timeSlot,
+          status: appointment.status
+        });
+      }
+      else if (action === "editar") {
+        setIsEditing(true);
+        setRescheduleMode(false);
+        setSelectedAppointment(appointment);
+        setBookingDetails({
+          patientName: appointment.patientName,
+          appointmentType: appointment.appointmentType,
+          timeSlot: appointment.timeSlot,
+          status: appointment.status
+        });
+      }
+    } catch (error) {
+      console.error("Error al procesar la acción de cita:", error);
+      alert(`Ocurrió un error: ${error.message}`);
+    }
+  };
+  // Get appointments for a specific day
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   const getAppointmentsForDay = (day) => {
     const date = new Date(monthData.year, monthData.month, day);
     return appointments.filter(appointment => {
@@ -476,6 +771,11 @@ const AgendaMedico = () => {
   };
 
   // Obtener cuenta de citas activas para un día (excluyendo canceladas)
+  const getActiveAppointmentsCountForDay = (day) => {
+    return getAppointmentsForDay(day).filter(app => app.status !== "cancelada").length;
+  };
+
+  // Get active appointments count for a day (excluding cancelled)
   const getActiveAppointmentsCountForDay = (day) => {
     return getAppointmentsForDay(day).filter(app => app.status !== "cancelada").length;
   };
@@ -551,6 +851,7 @@ const AgendaMedico = () => {
     return timeSlot;
   };
   
+<<<<<<< HEAD
   // Obtener citas para la fecha seleccionada (ordenadas por hora)
   const selectedDateAppointments = selectedDate 
     ? appointments
@@ -563,6 +864,16 @@ const AgendaMedico = () => {
             appointment.date.getFullYear() === selectedDate.getFullYear()
           );
         })
+=======
+  // Get appointments for selected date (ordered by time)
+  const selectedDateAppointments = selectedDate 
+    ? appointments
+        .filter(appointment => 
+          appointment.date.getDate() === selectedDate.getDate() &&
+          appointment.date.getMonth() === selectedDate.getMonth() &&
+          appointment.date.getFullYear() === selectedDate.getFullYear()
+        )
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
         .sort((a, b) => {
           // Ordenar por hora
           return a.timeSlot.localeCompare(b.timeSlot);
@@ -578,6 +889,7 @@ const AgendaMedico = () => {
   // Días de la semana en español (comenzando el domingo)
   const weekDays = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
+<<<<<<< HEAD
   // Verificar si una fecha es pasada
   const isPastDate = (date) => {
     if (!date) return false;
@@ -590,6 +902,8 @@ const AgendaMedico = () => {
     
     return compareDate < today;
   };
+=======
+>>>>>>> 1825dd297ef88995f34677eb10c5e8fd5050f879
   return (
     <div className="calendar-container">
       <div className="calendar-header">
